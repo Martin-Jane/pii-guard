@@ -151,7 +151,7 @@ export default defineContentScript({
       trust.onclick = async () => { await setTrusted(host, true); removeBanner(); };
       actions.append(close, trust);
       card.appendChild(actions);
-      card.appendChild(el('div', 'foot', 'Dianalisis lokal. Isi yang kamu ketik tidak pernah dibaca.'));
+      card.appendChild(el('div', 'foot', 'Dianalisis lokal. Data yang kamu ketik tidak pernah dibaca.'));
 
       root.appendChild(card);
       document.documentElement.appendChild(hostEl);

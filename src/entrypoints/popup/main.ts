@@ -59,7 +59,7 @@ async function main() {
   });
   sel.addEventListener('change', () => setMinLevel(sel.value as Level));
   app.append(h('hr'), h('label', {}, 'Tampilkan banner mulai level: ', sel),
-    h('p', { className: 'muted' }, 'Dianalisis lokal. Isi yang kamu ketik tidak pernah dibaca.'));
+    h('p', { className: 'muted' }, 'Dianalisis lokal. Data yang kamu ketik tidak pernah dibaca.'));
 }
 
 main();
