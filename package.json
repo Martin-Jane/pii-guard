@@ -1,0 +1,21 @@
+{
+  "name": "pii-guard",
+  "version": "0.1.0",
+  "description": "Ekstensi browser yang mengingatkan pengguna saat form meminta data pribadi",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "postinstall": "wxt prepare"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0",
+    "wxt": "^0.20.0"
+  }
+}
