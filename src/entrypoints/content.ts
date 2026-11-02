@@ -16,6 +16,7 @@ export default defineContentScript({
 
   async main() {
     const host = location.hostname;
+    let settings = await getSettings();
     let result: RiskResult = { score: 0, level: 'none', kinds: [], reasons: [] };
     let dismissed = false;
     let lastSignature = '';
@@ -75,9 +76,9 @@ export default defineContentScript({
         isHttps: location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1',
         pageHost: host,
         formActionHosts: actionHosts(),
+        pageText: pageText(),
       };
-      result = assessRisk(kinds, ctx);
-      console.log('[PII Guard]', result.level, result.score, result.kinds.map(k => k.kind));
+      result = assessRisk(kinds, ctx, { recruitment: settings.recruitmentMode, opsec: settings.opsecMode });
 
       const signature = result.level + ':' + kinds.map((k) => k.kind).join(',') + ':' + result.reasons.length;
       if (signature !== lastSignature) {
@@ -151,7 +152,7 @@ export default defineContentScript({
       trust.onclick = async () => { await setTrusted(host, true); removeBanner(); };
       actions.append(close, trust);
       card.appendChild(actions);
-      card.appendChild(el('div', 'foot', 'Dianalisis lokal. Data yang kamu ketik tidak pernah dibaca.'));
+      card.appendChild(el('div', 'foot', 'Dianalisis lokal. Isi yang kamu ketik tidak pernah dibaca.'));
 
       root.appendChild(card);
       document.documentElement.appendChild(hostEl);
@@ -168,7 +169,11 @@ export default defineContentScript({
     });
 
     // Render ulang ketika pengaturan berubah (mis. situs dipercaya lewat popup)
-    browser.storage.onChanged.addListener(() => { void render(); });
+    browser.storage.onChanged.addListener(async () => {
+      settings = await getSettings();
+      lastSignature = '';
+      scan();
+    });
 
     // ---- Jalankan otomatis + pantau form dinamis (SPA, modal) ----
     scan();
@@ -181,6 +186,13 @@ export default defineContentScript({
 });
 
 // ---------- util ----------
+/** Judul, deskripsi meta, dan heading halaman untuk mengenali konteks. Bukan isi ketikan; tidak disimpan/dikirim. */
+function pageText(): string {
+  const parts = [document.title, document.querySelector('meta[name="description"]')?.getAttribute('content') ?? ''];
+  document.querySelectorAll('h1, h2, h3').forEach((h, i) => { if (i < 12) parts.push(h.textContent ?? ''); });
+  return parts.join(' ').slice(0, 800);
+}
+
 function el(tag: string, cls = '', text = ''): HTMLElement {
   const e = document.createElement(tag);
   if (cls) e.className = cls;

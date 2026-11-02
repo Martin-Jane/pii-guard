@@ -1,7 +1,7 @@
 import { browser } from 'wxt/browser';
 import type { Level } from '../../core/types';
 import type { ScanSummary } from '../../lib/messages';
-import { getSettings, setMinLevel, setTrusted } from '../../lib/settings';
+import { getSettings, setMinLevel, setMode, setTrusted } from '../../lib/settings';
 
 const COLORS: Record<Level, string> = { none: '#16a34a', low: '#2563eb', medium: '#d97706', high: '#ea580c', critical: '#dc2626' };
 const TEXT: Record<Level, string> = { none: 'Aman', low: 'Rendah', medium: 'Sedang', high: 'Tinggi', critical: 'Kritis' };
@@ -58,8 +58,15 @@ async function main() {
     sel.append(o);
   });
   sel.addEventListener('change', () => setMinLevel(sel.value as Level));
+  const toggle = (key: 'recruitmentMode' | 'opsecMode', text: string) => {
+    const cb = h('input', { type: 'checkbox', checked: settings[key] }) as HTMLInputElement;
+    cb.addEventListener('change', async () => { await setMode(key, cb.checked); setTimeout(main, 300); });
+    return h('label', {}, cb, ' ' + text);
+  };
   app.append(h('hr'), h('label', {}, 'Tampilkan banner mulai level: ', sel),
-    h('p', { className: 'muted' }, 'Dianalisis lokal. Data yang kamu ketik tidak pernah dibaca.'));
+    toggle('recruitmentMode', 'Mode rekrutmen TNI'),
+    toggle('opsecMode', 'Mode OPSEC (data kedinasan)'),
+    h('p', { className: 'muted' }, 'Dianalisis lokal. Isi yang kamu ketik tidak pernah dibaca.'));
 }
 
 main();

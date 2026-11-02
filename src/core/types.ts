@@ -1,7 +1,8 @@
 export type PiiKind =
   | 'nik' | 'kk' | 'npwp' | 'mother_name' | 'phone' | 'email' | 'fullname'
   | 'address' | 'birth' | 'bank_account' | 'card_number' | 'cvv' | 'otp' | 'pin'
-  | 'health' | 'ktp_photo' | 'selfie';
+  | 'health' | 'ktp_photo' | 'selfie'
+  | 'nrp' | 'nip' | 'kta' | 'rank' | 'unit' | 'assignment';
 
 export type Level = 'none' | 'low' | 'medium' | 'high' | 'critical';
 
@@ -43,6 +44,8 @@ export interface PageContext {
   pageHost: string;
   /** host tujuan form (atribut action), bila ada */
   formActionHosts: string[];
+  /** Judul, deskripsi meta, dan heading halaman (maks ~800 karakter). Bukan isi ketikan. */
+  pageText?: string;
 }
 
 export interface RiskResult {

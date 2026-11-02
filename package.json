@@ -1,6 +1,6 @@
 {
   "name": "pii-guard",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Ekstensi browser yang mengingatkan pengguna saat form meminta data pribadi",
   "type": "module",
   "scripts": {

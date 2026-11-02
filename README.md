@@ -20,6 +20,8 @@ Jalankan server lokal lalu buka halaman demo:
 ```bash
 npx serve demo        # atau: python3 -m http.server 8000 --directory demo
 ```
+Buka `http://localhost:8000/form.html`, `rekrutmen-palsu.html` (Mode Rekrutmen), dan `opsec.html` (Mode OPSEC). Semua data di halaman demo sintetis.
+
 Buka `http://localhost:8000/form.html`. Form 1 tidak boleh memicu banner, form 2 harus Kritis,
 form 3 muncul setelah 3 detik (menguji MutationObserver).
 
@@ -45,3 +47,10 @@ demo/form.html     halaman uji
 3. Halaman options + edukasi hak subjek data UU PDP.
 4. Deteksi form di iframe (`all_frames`).
 5. Mode Firefox: `npm run dev:firefox`.
+
+## Mode khusus TNI (v0.2.0)
+- **Mode Rekrutmen:** bila judul/heading halaman membahas rekrutmen TNI dan form meminta data identitas di domain selain `*.mil.id`, skor naik. Permintaan data pembayaran di halaman rekrutmen diberi peringatan tambahan.
+- **Mode OPSEC:** kamus NRP, NIP, KTA, pangkat/korps, kesatuan, dan lokasi/jadwal penugasan. Data kedinasan diminta di luar domain resmi menaikkan skor.
+- Keduanya bisa dimatikan di popup. Daftar domain resmi ada di `src/core/official.ts` (**TODO: verifikasi sebelum rilis**).
+- Catatan privasi: untuk mengenali konteks rekrutmen, ekstensi membaca judul, deskripsi meta, dan heading halaman. Teks ini dianalisis lokal, tidak disimpan, dan tidak dikirim. Isi ketikan tetap tidak pernah dibaca.
+- Lapis 3 (penerapan per satuan lewat kebijakan Chrome Enterprise) masih rencana, belum diimplementasikan.

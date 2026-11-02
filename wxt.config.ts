@@ -7,6 +7,6 @@ export default defineConfig({
     description:
       'Mengingatkan Anda sebelum mengisi form yang meminta data pribadi (NIK, KTP, OTP, dll). Semua proses lokal.',
     // Izin seminimal mungkin. Content script berjalan otomatis lewat `matches`.
-    permissions: ['storage', 'activeTab'],
+    permissions: ['storage'],
   },
 });

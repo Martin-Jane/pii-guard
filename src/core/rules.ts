@@ -98,4 +98,35 @@ export const RULES: PiiRule[] = [
     patterns: [/\b(selfie|swafoto|foto diri|foto wajah|face|biometrik|biometric)\b/],
     edu: 'Foto wajah adalah data biometrik, termasuk data pribadi spesifik. Sering dipasangkan dengan foto KTP untuk verifikasi palsu.',
   },
+  // ---- Mode OPSEC: data kedinasan prajurit/PNS TNI (istilah perlu divalidasi dengan sumber resmi) ----
+  {
+    kind: 'nrp', label: 'NRP prajurit', severity: 4, specific: false,
+    patterns: [/\b(nrp|nomor registrasi pokok|no registrasi pokok)\b/],
+    edu: 'NRP adalah identitas kedinasan prajurit. Berikan hanya melalui kanal resmi kesatuan.',
+  },
+  {
+    kind: 'nip', label: 'NIP pegawai', severity: 3, specific: false,
+    patterns: [/\b(nip|nomor induk pegawai|no induk pegawai)\b/],
+    edu: 'NIP terhubung dengan data kepegawaian. Pastikan situs yang meminta adalah domain resmi instansi.',
+  },
+  {
+    kind: 'kta', label: 'Kartu Tanda Anggota', severity: 3, specific: false,
+    patterns: [/\b(kta|kartu tanda anggota|no kta|nomor kta)\b/],
+    edu: 'Data kartu anggota bisa dipakai untuk menyamar sebagai anggota. Jangan unggah atau ketik di situs tidak resmi.',
+  },
+  {
+    kind: 'rank', label: 'Pangkat/korps', severity: 2, specific: false,
+    patterns: [/\b(pangkat|korps)\b/],
+    edu: 'Pangkat dan korps membantu pihak luar menyusun profil dan menyamar sebagai pejabat.',
+  },
+  {
+    kind: 'unit', label: 'Satuan/kesatuan', severity: 3, specific: false,
+    patterns: [/\b(kesatuan|asal satuan|nama satuan|satuan asal|satuan tugas|kodam|korem|kodim|koramil|yonif|batalyon|detasemen)\b/],
+    edu: 'Informasi satuan, bila terkumpul dari banyak sumber, dapat dipakai menyusun gambaran kegiatan. Terapkan prinsip OPSEC.',
+  },
+  {
+    kind: 'assignment', label: 'Lokasi/jadwal penugasan', severity: 4, specific: false,
+    patterns: [/\b(lokasi penugasan|tempat tugas|pos tugas|dislokasi|daerah operasi|jadwal patroli|jadwal tugas|rencana penugasan)\b/],
+    edu: 'Lokasi dan jadwal penugasan adalah informasi sensitif. Jangan diberikan di luar kanal resmi.',
+  },
 ];
